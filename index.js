@@ -21,6 +21,8 @@ const allowedOrigins = ["http://localhost:5173","http://localhost:3000",
 app.use(express.json());
 app.use(cookieParser());
 // app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(express.urlencoded({ extended: true }));
+
 
 app.use(cors({ 
     origin: function (origin, callback) {

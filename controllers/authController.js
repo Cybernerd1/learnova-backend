@@ -55,7 +55,7 @@ export const registerUser = async (req, res) => {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return res.json({ success: false, message: "useralready exists" });
+      return res.json({ success: false, message: "user already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -238,9 +238,16 @@ export const logout = async (req, res) => {
 
 export const sendVerifyOtp = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const user = await userModel.findById(userId);
+    const { email } = req.body;
+    if (!email) {
+      return res.json({ success: false, message: "Email is required" });
+    }
+    // const user = await userModel.findById(userId);
+    const user = await userModel.findOne({ email });
 
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
     if (user.isAccountVerified) {
       return res.json({ success: false, message: "Account already verified" });
     }
@@ -272,13 +279,14 @@ export const sendVerifyOtp = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  const { userId, otp } = req.body;
-  if (!userId || !otp) {
+  const { email, otp } = req.body;
+  if (!email || !otp) {
     return res.json({ success: false, message: "Missing details" });
   }
 
   try {
-    const user = await userModel.findById(userId);
+    // const user = await userModel.findById(userId);
+    const user = await userModel.findOne({ email });
 
     if (!user) {
       return res.json({ success: false, message: "User not found" });
@@ -490,11 +498,10 @@ export const otpLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.json({ 
-      success: true, 
-      message: "Login successful" 
+    return res.json({
+      success: true,
+      message: "Login successful",
     });
-
   } catch (error) {
     return res.json({
       success: false,
