@@ -14,9 +14,9 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     process.exit(1);
 }
 
-console.log('✅ Google OAuth credentials loaded');
-console.log('Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Present' : 'Missing');
-console.log('Client Secret:', process.env.GOOGLE_CLIENT_SECRET ? 'Present' : 'Missing');
+// console.log('✅ Google OAuth credentials loaded');
+// console.log('Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Present' : 'Missing');
+// console.log('Client Secret:', process.env.GOOGLE_CLIENT_SECRET ? 'Present' : 'Missing');
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,

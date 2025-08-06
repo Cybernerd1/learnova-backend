@@ -10,6 +10,7 @@ import {
   verifyEmail,
   otpLogin,
   refreshToken,
+  sendLoginOtp
 } from "../controllers/authController.js";
 import userAuth from "../middlewares/userAuth.js";
 import { otpLimiter, loginLimiter } from "../middlewares/ratelimiter.js";
@@ -24,6 +25,7 @@ authRouter.post("/register", registerUser);
 authRouter.post("/login", loginLimiter, loginUser);
 authRouter.post("/logout", logout);
 authRouter.post("/send-verify-otp", otpLimiter, sendVerifyOtp);
+authRouter.post("/send-login-otp", otpLimiter, sendLoginOtp);
 authRouter.post("/verify-account", verifyEmail);
 authRouter.get("/is-auth", userAuth, isAuthenticated);
 authRouter.post("/send-reset-otp", otpLimiter, sendResetOtp);
