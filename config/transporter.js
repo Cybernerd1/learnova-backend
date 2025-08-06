@@ -16,10 +16,10 @@ import dotenv from "dotenv";
 dotenv.config(); // ✅ Load .env
 
 
-console.log("Using SMTP config:", {
-    host: "smtp-relay.brevo.com",
-    user: process.env.SMTP_USER,
-  });
+// console.log("Using SMTP config:", {
+//     host: "smtp-relay.brevo.com",
+//     user: process.env.SMTP_USER,
+//   });
   
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com", // ✅ Ensure this is NOT 127.0.0.1
