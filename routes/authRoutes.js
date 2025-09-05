@@ -42,7 +42,10 @@ authRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect("/");
+    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+    // Redirect frontend with token
+    res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
   }
 );
 
