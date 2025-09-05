@@ -9,7 +9,7 @@ dotenv.config();
 
 // Check if required environment variables are present
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-    console.error('❌ Google OAuth credentials missing!');
+    console.error(' Google OAuth credentials missing!');
     console.error('Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your .env file');
     process.exit(1);
 }
