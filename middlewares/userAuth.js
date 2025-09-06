@@ -23,7 +23,7 @@ const userAuth = async (req,res, next) => {
       });
     }
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    res.status(401).json({ success: false, message: error.message });
   }
 };
 export default userAuth;

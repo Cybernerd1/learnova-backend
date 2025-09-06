@@ -1,4 +1,5 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import {
   isAuthenticated,
   loginUser,
@@ -40,12 +41,22 @@ authRouter.get(
 );
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
+    // send jwt as secure, httponnly cookie
+    res.cookie("token", token, {
+      httpOnly: true,     
+      secure: true,       
+      sameSite: "none", 
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
     // Redirect frontend with token
-    res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
+    // res.redirect(`${process.env.FRONTEND_URL}/`);
+    res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${token}`);
+
   }
 );
 

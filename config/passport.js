@@ -4,6 +4,13 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import userModel from '../models/userModel.js';
 
+import crypto from "crypto";
+
+function generateRandomPassword(length = 8) {
+  return crypto.randomBytes(length).toString("hex"); // secure random string
+}
+
+
 // Load environment variables
 dotenv.config();
 
@@ -50,7 +57,7 @@ passport.use(new GoogleStrategy({
 
         // Create new user if doesn't exist
         console.log('Creating new user for:', profile.emails[0].value);
-        
+        const randomPassword = generateRandomPassword();
         const newUser = new userModel({
             googleId: profile.id,
             name: profile.displayName,
@@ -58,7 +65,7 @@ passport.use(new GoogleStrategy({
             profilePicture: profile.photos[0]?.value || '',
             isAccountVerified: true,
             authProvider: 'google',
-            password: null // No password for OAuth users
+            password: randomPassword // Auto generated 8 digit password for OAuth users
         });
 
         const savedUser = await newUser.save();
